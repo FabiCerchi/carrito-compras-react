@@ -1,9 +1,10 @@
 import React from 'react';
+import { Card, Button} from 'react-bootstrap';
 
 const Producto = ({ producto, productos, carrito, agregarProducto }) => {
 
     //Extraigo los valores de producto
-    const { id, articulo, precio, cantidadComprada } = producto; //Destructuring
+    const { id, nombre, precio, cantidadComprada } = producto; //Destructuring
 
     //Funcion para comprar un producto
     const seleccionarProducto = (id) => {
@@ -11,12 +12,12 @@ const Producto = ({ producto, productos, carrito, agregarProducto }) => {
             producto => producto.id === id
         )[0];
         const productoCarrito = carrito.find(producto => producto.id === id);
-        if(!productoCarrito){
+        if (!productoCarrito) {
             producto.cantidadComprada = 1
             agregarProducto([...carrito, producto]);
-        }else{
-           productoCarrito.cantidadComprada += 1
-           agregarProducto([...carrito])
+        } else {
+            productoCarrito.cantidadComprada += 1
+            agregarProducto([...carrito])
         }
     };
 
@@ -24,10 +25,10 @@ const Producto = ({ producto, productos, carrito, agregarProducto }) => {
         const producto = carrito.filter(
             producto => producto.id === id
         )[0];
-        if(producto.cantidadComprada > 1){
-            producto.cantidadComprada-=1
+        if (producto.cantidadComprada > 1) {
+            producto.cantidadComprada -= 1
             agregarProducto([...carrito])
-        }else{
+        } else {
             const carritoActualizado = carrito.filter(producto => producto.id !== id);
             agregarProducto(carritoActualizado)
         }
@@ -38,15 +39,21 @@ const Producto = ({ producto, productos, carrito, agregarProducto }) => {
 
             {productos ?
                 <>
-                    <li>{id} | {articulo} | {precio}</li>
-                    <button
-                        type="button"
-                        onClick={() => seleccionarProducto(id)}
-                    >Comprar</button>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src={ nombre } />
+                        <Card.Body>
+                            <Card.Title>{ nombre }</Card.Title>
+                            <Card.Text>{ nombre }</Card.Text>
+                            <Card.Text>Precio: { precio }</Card.Text>
+                            <Button variant="primary"
+                                type="button"
+                                onClick={() => seleccionarProducto(id)}>Agregar al carrito</Button>
+                        </Card.Body>
+                    </Card>
                 </>
                 :
-                <>  
-                    <li>{id} | {articulo} | {precio} | {cantidadComprada}</li>
+                <>
+                    <li>{id} | {nombre} | {precio} | {cantidadComprada}</li>
                     <button
                         type="button"
                         onClick={() => eliminarProducto(carrito, id)}
