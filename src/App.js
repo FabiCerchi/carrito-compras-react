@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -6,10 +6,16 @@ import Producto from './components/Producto';
 import Carrito from './components/Carrito';
 
 function App() {
-  const [carrito, agregarProducto] = useState([]);
+  const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  const [carrito, agregarProducto] = useState(carritoGuardado);
+  
+  useEffect(() => {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  }, [carrito]);
 
   // Creamos nuestra lista de productos
-  const [productos, ] = useState([
+  const [productos] = useState([
     {id:0, articulo:"Pure de Tomate", precio:100},
     {id:1, articulo:"Mayonesa", precio:200},
     {id:2, articulo:"Pringles", precio:800},
